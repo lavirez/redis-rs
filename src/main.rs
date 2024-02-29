@@ -23,15 +23,18 @@ fn main() {
 
 fn handle_stream(mut stream: TcpStream) {
     let mut buf = [0; 512];
-    match stream.read(&mut buf) {
-        Ok(_) => {
-            let recieved = String::from_utf8_lossy(&buf);
-            let response = "+PONG\r\n";
-            stream.write(response.as_bytes()).unwrap();
-            stream.flush().unwrap();
-        }
-        Err(e) => {
-            println!("An error occured {}", e);
+    loop {
+        match stream.read(&mut buf) {
+            Ok(_) => {
+                let recieved = String::from_utf8_lossy(&buf);
+                println!("Recieved : {}", recieved);
+                let response = "+PONG\r\n";
+                stream.write(response.as_bytes()).unwrap();
+                stream.flush().unwrap();
+            }
+            Err(e) => {
+                println!("An error occured {}", e);
+            }
         }
     }
 }

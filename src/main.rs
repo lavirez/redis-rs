@@ -14,7 +14,7 @@ fn main() {
             Ok(_stream) => {
                 thread::spawn(move || {
                     handle_stream(_stream);
-                })
+                });
             }
             Err(e) => {
                 println!("error: {}", e);

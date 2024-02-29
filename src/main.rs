@@ -1,5 +1,5 @@
-// Uncomment this block to pass the first stage
 use std::{net::{TcpListener, TcpStream}, io::{Read, Write}};
+use std::thread;
 
 fn main() {
     // You can use print statements as follows for debugging, they'll be visible when running tests.
@@ -12,7 +12,9 @@ fn main() {
     for stream in listener.incoming() {
         match stream {
             Ok(_stream) => {
-                handle_stream(_stream);
+                thread::spawn(move || {
+                    handle_stream(_stream);
+                })
             }
             Err(e) => {
                 println!("error: {}", e);

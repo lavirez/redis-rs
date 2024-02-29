@@ -26,11 +26,9 @@ fn handle_stream(mut stream: TcpStream) {
     match stream.read(&mut buf) {
         Ok(_) => {
             let recieved = String::from_utf8_lossy(&buf);
-            if recieved == "PING" {
-                let response = "+PONG\r\n";
-                stream.write(response.as_bytes()).unwrap();
-                stream.flush().unwrap();
-            }
+            let response = "+PONG\r\n";
+            stream.write(response.as_bytes()).unwrap();
+            stream.flush().unwrap();
         }
         Err(e) => {
             println!("An error occured {}", e);
